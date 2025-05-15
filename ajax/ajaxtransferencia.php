@@ -1,4 +1,10 @@
 <?php
+
+// filepath: c:\xampp_7.4.10\htdocs\sistemawacf\ajax\ajaxtransferencia.php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+// ...existing code...
+
 if (strlen(session_id()) < 1)
     session_start();
 
@@ -477,7 +483,8 @@ switch ($_GET["op"]) {
                 "2" => $reg->nombre_articulo,
                 "3" => $reg->cantidad_productos,
                 "4" => $reg->nombre_almacen,
-                "5" => $reg->pre,
+               // "5" => $reg->pre,
+                "5" => $reg->almacen_destino,     // almacén destino (nuevo campo de tu consulta SQL)
                 "6" => $reg->numeracion_07,
                 "7" => $reg->motivo,
                 "8" => $reg->monto_15_2,
