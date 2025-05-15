@@ -255,7 +255,7 @@ class ModeloTransferencia
 
     //Implementamos un método para anular la factura
     public function anular($idboleta)
-    {
+    { 
 
         $connect = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
         mysqli_query($connect, 'SET NAMES "' . DB_ENCODE . '"');
@@ -279,7 +279,7 @@ class ModeloTransferencia
                 $Ida[$i] = $fila["idarticulo"];
 
                 $sql_update_articulo = "update
-     detalle_transferenciastock_producto de inner join articulo a  on de.idarticulo=a.idarticulo set
+        detalle_transferenciastock_producto de inner join articulo a  on de.idarticulo=a.idarticulo set
        a.saldo_finu=a.saldo_finu + de.cantidad_item_12,
        a.stock=a.stock + de.cantidad_item_12,
        a.ventast=a.ventast - de.cantidad_item_12,
@@ -290,7 +290,7 @@ class ModeloTransferencia
                 //ACTUALIZAR TIPO TRANSACCION KARDEX
                 //Guardar en Kardex
                 $sql_kardex = "insert into
-    kardex
+        kardex
      (idcomprobante,
       idarticulo,
       transaccion,
@@ -318,13 +318,13 @@ class ModeloTransferencia
              '01',
              (select numeracion_07 from boleta where idboleta='$Idb[$i]'),
 
-(select dtb.cantidad_item_12 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+       (select dtb.cantidad_item_12 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select dtb.valor_uni_item_31 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+       (select dtb.valor_uni_item_31 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select a.unidad_medida from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+      (select a.unidad_medida from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-0, 0, 0)";
+       0, 0, 0)";
 
                 $sqlestado = "update
         transferenciastock
@@ -373,7 +373,7 @@ class ModeloTransferencia
                 //ACTUALIZAR TIPO TRANSACCION KARDEX
                 //Guardar en Kardex
                 $sql_kardex = "insert into
-    kardex
+       kardex
      (idcomprobante,
       idarticulo,
       transaccion,
@@ -401,13 +401,13 @@ class ModeloTransferencia
              '14',
              (select numeracion_07 from transferenciastock where idboleta='$Idb[$i]'),
 
-(select dtb.cantidad_item_12 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+       (select dtb.cantidad_item_12 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select dtb.valor_uni_item_31 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+        (select dtb.valor_uni_item_31 from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-(select a.unidad_medida from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
+        (select a.unidad_medida from articulo a inner join detalle_transferenciastock_producto dtb on a.idarticulo=dtb.idarticulo where a.idarticulo='$Ida[$i]' and dtb.idboleta = '$Idb[$i]'),
 
-0, 0, 0)";
+        0, 0, 0)";
 
             }
 
@@ -469,9 +469,10 @@ class ModeloTransferencia
     }
 
     //Implementar un método para listar los registros
-    public function listar()
-    {
-        $sql = "select
+  
+   public function listar()
+   {
+    $sql = "select
         t.idboleta,
         date_format(t.fecha_emision_01, '%d/%m/%y') as fecha,
         t.idcliente,
@@ -494,28 +495,23 @@ class ModeloTransferencia
         dt.iddetalle,
         a.nombre as nombre_articulo,
         f.descripcion as categoria,
-        al.nombre as nombre_almacen,
+        al.nombre as nombre_almacen,         -- almacén del artículo
+        al2.nombre as almacen_destino,       -- almacén destino de la transferencia
         dt.cantidad_item_12 as cantidad_productos
-            from
-                transferenciastock t
-            inner join
-                persona p on t.idcliente = p.idpersona
-            inner join
-                usuario u on t.idusuario = u.idusuario
-            inner join
-                empresa e on t.idempresa = e.idempresa
-            inner join
-                detalle_transferenciastock_producto dt on t.idboleta = dt.idboleta
-            inner join
-                articulo a on dt.idarticulo = a.idarticulo
-            inner join
-                familia f on a.idfamilia = f.idfamilia
-            inner join
-                almacen al on a.idalmacen = al.idalmacen
-            order by
-                t.idboleta desc";
-        return ejecutarConsulta($sql);
-    }
+    from
+        transferenciastock t
+        inner join persona p on t.idcliente = p.idpersona
+        inner join usuario u on t.idusuario = u.idusuario
+        inner join empresa e on t.idempresa = e.idempresa
+        inner join detalle_transferenciastock_producto dt on t.idboleta = dt.idboleta
+        inner join articulo a on dt.idarticulo = a.idarticulo
+        inner join familia f on a.idfamilia = f.idfamilia
+        inner join almacen al on a.idalmacen = al.idalmacen
+        left join almacen al2 on t.transferencia = al2.idalmacen -- almacén destino
+    order by
+        t.idboleta desc";
+    return ejecutarConsulta($sql);
+   }
 
 
     public function ventacabecera($idboleta)
@@ -538,6 +534,7 @@ class ModeloTransferencia
         np.numeracion_07 as numerofac,
         date_format(np.fecha_emision_01,'%d-%m-%Y') as fecha,
         date_format(np.fecha_emision_01,'%Y-%m-%d') as fecha2,
+        DATE_FORMAT(np.fecha_emision_01, '%H:%i:%s') as hora, -- <--- AGREGADO
         np.importe_total_23 as totalLetras,
         np.importe_total_23 as itotal,
         np.estado,
@@ -577,6 +574,7 @@ class ModeloTransferencia
         $sql = "select
         a.nombre as articulo,
         a.codigo,
+        a.nombrett as nombretribu,
         format(db.cantidad_item_12,2) as cantidad_item_12,
         db.valor_uni_item_31,
         db.precio_uni_item_14_2,

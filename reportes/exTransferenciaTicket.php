@@ -183,7 +183,7 @@ if (!isset($_SESSION["nombre"])) {
             <?php
             function shouldDisplayPaymentMethods($record)
             {
-                return $record->yape > 0 || $record->visa > 0 || $record->efectivo > 0 || $record->plin > 0 || $record->masterC > 0 || $record->dep > 0;
+                return $record->yape > 0 || $record->visa > 0 || $record->efectivo > 0 || $record->plin > 0 || $record->mastercard > 0 || $record->deposito > 0;
             }
             ?>
 
