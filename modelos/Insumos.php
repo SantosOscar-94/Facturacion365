@@ -12,9 +12,9 @@ Class Insumos
     
         //Implementamos un método para insertar registros para boleta
     public function traeridsaldoiniinusmos($idusuario){
-        $sql = "SELECT idsaldoini FROM saldocaja WHERE idusuario = '$idusuario' AND caja_abierta = b'0' LIMIT 1;";
-        $result = ejecutarConsultaSimpleFila($sql);
-        return $result['idsaldoini'];
+    $sql = "SELECT idsaldoini FROM saldocaja WHERE idusuario = '$idusuario' AND caja_abierta = b'0' LIMIT 1;";
+    $result = ejecutarConsultaSimpleFila($sql);
+    return (is_array($result) && isset($result['idsaldoini'])) ? $result['idsaldoini'] : null;
     }
 
 
@@ -303,20 +303,23 @@ Class Insumos
 		return ejecutarConsulta($sql);
 	}
 
-	public function listarutilidad()
-	{
-		$sql="select 
-		idutilidad, 
-		date_format(fecha1, '%d-%m-%Y') as fecha1,
+
+    public function listarutilidad($idusuario)
+   {
+    $sql = "SELECT 
+        idutilidad, 
+        date_format(fecha1, '%d-%m-%Y') as fecha1,
         date_format(fecha2, '%d-%m-%Y') as fecha2, 
         totalgastos, 
         totalventas,
         utilidad,
         porcentaje,
         estado
-        from utilidadgi where idusuario = '$idusuario' order by idutilidad desc";
-		return ejecutarConsulta($sql);
-	}
+        FROM utilidadgi 
+        WHERE idusuario = '$idusuario' 
+        ORDER BY idutilidad DESC";
+    return ejecutarConsulta($sql);
+   }
 
 		public function aprobarutilidad($idutilidad)
 	{

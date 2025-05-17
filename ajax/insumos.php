@@ -174,9 +174,9 @@ switch ($_GET["op"]){
 
 
  		case 'listarutilidad':
-		$rspta=$insumos->listarutilidad();
- 		$data= Array();
-
+		$idusuario = isset($_GET['idusuario']) ? $_GET['idusuario'] : null;
+    $rspta = $insumos->listarutilidad($idusuario);
+    $data = Array();
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
  				"0"=>$reg->idutilidad,
@@ -201,7 +201,7 @@ switch ($_GET["op"]){
  			"aaData"=>$data);
  		echo json_encode($results);
 
-	break;
+	   break;
 	
 
 		case 'aprobarutilidad':

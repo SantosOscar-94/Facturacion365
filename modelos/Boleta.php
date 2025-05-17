@@ -18,75 +18,231 @@ class Boleta
     return $result['idsaldoini'];
   }
 
-   public function insertar(
-  $idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa,
-  $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2,
-  $sumatoria_igv_18_1, $sumatoria_igv_18_2, $sumatoria_igv_18_3, $sumatoria_igv_18_4, $sumatoria_igv_18_5,
-  $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2,
-  $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38,
-  $tipo_moneda_24, $tasa_igv, $idarticulo, $numero_orden_item_29, $cantidad_item_12,
-  $codigo_precio_14_1, $precio_unitario, $igvBD, $igvBD2, $afectacion_igv_3,
-  $afectacion_igv_4, $afectacion_igv_5, $afectacion_igv_6, $igvBD3, $vvu, $subtotalBD,
-  $codigo, $unidad_medida, $idserie, $SerieReal, $numero_boleta,
-  $tipodocuCliente, $rucCliente, $RazonSocial, $hora, $dctoitem, $vendedorsitio,
-  $tcambio, $totaldescu, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado,
-  $saldo, $descdet, $total_icbper, $tipoboleta, $cantidadreal, $ccuotas,
-  $fechavecredito, $montocuota, $tadc, $transferencia, $ncuotahiden, $montocuotacre,
-  $fechapago, $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito
-) {
-  $st = ($SerieReal == '0001' || $SerieReal == '0002') ? '6' : '1';
-
-  $formapago = ($tipopago == 'Contado') ? 'Contado' : 'Credito';
-  $montofpago = ($formapago == 'Credito') ? $importe_total_23 : 0;
-  $monedafpago = ($formapago == 'Credito') ? $tipo_moneda_24 : '';
-
-  $montotar = ($tadc == '1') ? $importe_total_23 : 0;
-  $montotran = ($transferencia == '1') ? $importe_total_23 : 0;
-
-  $idsaldoini = $this->traeridsaldoini($idusuario);
-  if (!$idsaldoini) {
-    return false;
-  }
-
-  // Sanear datos numéricos
-  $tipo_documento_25_1 = is_numeric($tipo_documento_25_1) ? intval($tipo_documento_25_1) : 'NULL';
-  $sumatoria_igv_18_3 = $this->db->real_escape_string($sumatoria_igv_18_3); // Evitar inyección en subqueries si aplica
-
-  $sql = "INSERT INTO boleta (
-    idusuario, idsaldoini, fecha_emision_01, firma_digital_36, idempresa,
-    tipo_documento_06, numeracion_07, idcliente, codigo_tipo_15_1, monto_15_2,
-    sumatoria_igv_18_1, sumatoria_igv_18_2,
-    codigo_tributo_18_3, nombre_tributo_18_4, codigo_internacional_18_5,
-    importe_total_23, codigo_leyenda_26_1, descripcion_leyenda_26_2,
-    tipo_documento_25_1, guia_remision_25, version_ubl_37, version_estructura_38,
-    tipo_moneda_24, tasa_igv, estado, tipodocuCliente, rucCliente, RazonSocial,
-    tdescuento, vendedorsitio, tcambio, tipopago, nroreferencia, ipagado, saldo,
-    DetalleSunat, icbper, tipoboleta, formapago, montofpago, monedafpago,
-    ccuotas, fechavecredito, montocuota, tarjetadc, transferencia,
-    montotarjetadc, montotransferencia, fechavenc,
-    efectivo, visa, yape, plin, mastercard, deposito
-  ) VALUES (
-    '$idusuario', '$idsaldoini', '$fecha_emision_01 $hora', '$firma_digital_36', '$idempresa',
-    '$tipo_documento_06', '$SerieReal-$numero_boleta', '$idcl', '$codigo_tipo_15_1', '$monto_15_2',
-    '$sumatoria_igv_18_1', '$sumatoria_igv_18_2',
-    (SELECT codigo FROM catalogo5 WHERE codigo='$sumatoria_igv_18_3'),
-    (SELECT descripcion FROM catalogo5 WHERE codigo='$sumatoria_igv_18_3'),
-    (SELECT unece5153 FROM catalogo5 WHERE codigo='$sumatoria_igv_18_3'),
-    '$importe_total_23', '$codigo_leyenda_26_1', '$descripcion_leyenda_26_2',
-    $tipo_documento_25_1, '$guia_remision_25', '$version_ubl_37', '$version_estructura_38',
-    '$tipo_moneda_24', '$tasa_igv', '$st', '$tipodocuCliente', '$rucCliente', '$RazonSocial',
-    '$totaldescu', '$vendedorsitio', '$tcambio', '$tipopago', '$nroreferencia', '$ipagado', '$saldo',
-    'ENVIANDO', '$total_icbper', '$tipoboleta', '$formapago', '$montofpago', '$monedafpago',
-    '$ccuotas', '$fechavecredito', '$montocuota', '$tadc', '$transferencia',
-    '$montotar', '$montotran', '$fechavenc',
-    '$efectivo', '$visa', '$yape', '$plin', '$mastercard', '$deposito'
-  )";
-
-  return $this->db->query($sql);
 
 
+  public function insertar(
+    $idusuario,
+    $idsaldoini,
+    $fecha_emision_01,
+    $firma_digital_36,
+    $idempresa,
+    $tipo_documento_06,
+    $numeracion_07,
+    $idcl,
+    $codigo_tipo_15_1,
+    $monto_15_2,
+    $sumatoria_igv_18_1,
+    $sumatoria_igv_18_2,
+    $sumatoria_igv_18_3,
+    $sumatoria_igv_18_4,
+    $sumatoria_igv_18_5,
+    $importe_total_23,
+    $codigo_leyenda_26_1,
+    $descripcion_leyenda_26_2,
+    $tipo_documento_25_1,
+    $guia_remision_25,
+    $version_ubl_37,
+    $version_estructura_38,
+    $tipo_moneda_24,
+    $tasa_igv,
+    $idarticulo,
+    $numero_orden_item_29,
+    $cantidad_item_12,
+    $codigo_precio_14_1,
+    $precio_unitario,
+    $igvBD,
+    $igvBD2,
+    $afectacion_igv_3,
+    $afectacion_igv_4,
+    $afectacion_igv_5,
+    $afectacion_igv_6,
+    $igvBD3,
+    $vvu,
+    $subtotalBD,
+    $codigo,
+    $unidad_medida,
+    $idserie,
+    $SerieReal,
+    $numero_boleta,
+    $tipodocuCliente,
+    $rucCliente,
+    $RazonSocial,
+    $hora,
+    $dctoitem,
+    $vendedorsitio,
+    $tcambio,
+    $totaldescu,
+    $domicilio_fiscal,
+    $tipopago,
+    $nroreferencia,
+    $ipagado,
+    $saldo,
+    $descdet,
+    $total_icbper,
+    $tipoboleta,
+    $cantidadreal,
+    $ccuotas,
+    $fechavecredito,
+    $montocuota,
+    $tadc,
+    $transferencia,
+    $ncuotahiden,
+    $montocuotacre,
+    $fechapago,
+    $fechavenc,
+    $efectivo,
+    $visa,
+    $yape,
+    $plin,
+    $mastercard,
+    $deposito
+  ) {
 
- 
+    $st = '1';
+    if ($SerieReal == '0001' || $SerieReal == '0002') {
+      $st = '6';
+    }
+    $formapago = '';
+    $montofpago = '';
+    $monedafpago = '';
+    if ($tipopago == 'Contado') {
+      $formapago = 'Contado';
+    } else {
+      $formapago = 'Credito';
+      $montofpago = $importe_total_23;
+      $monedafpago = $tipo_moneda;
+    }
+    $montotar = 0;
+    $montotran = 0;
+    if ($tadc == '1') {
+      $montotar = $importe_total_23;
+    }
+    if ($transferencia == '1') {
+      $montotran = $importe_total_23;
+    }
+
+    $idsaldoini = $this->traeridsaldoini($idusuario);
+      // Verificar si hay una caja abierta para el usuario
+      if (!$idsaldoini) {
+        // No hay caja abierta, no se puede realizar la venta
+        return false;
+    }
+    
+    $sql = "insert into 
+        boleta (idusuario,
+          idsaldoini,
+          fecha_emision_01, 
+          firma_digital_36,
+          idempresa, 
+          tipo_documento_06, 
+          numeracion_07, 
+          idcliente, 
+          codigo_tipo_15_1, 
+          monto_15_2, 
+          sumatoria_igv_18_1, 
+          sumatoria_igv_18_2, 
+          codigo_tributo_18_3, 
+          nombre_tributo_18_4, 
+          codigo_internacional_18_5, 
+          importe_total_23, 
+          codigo_leyenda_26_1, 
+          descripcion_leyenda_26_2, 
+          tipo_documento_25_1, 
+          guia_remision_25, 
+          version_ubl_37, 
+          version_estructura_38, 
+          tipo_moneda_24, 
+          tasa_igv, 
+          estado, 
+          tipodocuCliente, 
+          rucCliente, 
+          RazonSocial,
+          tdescuento, 
+          vendedorsitio,
+          tcambio,
+          tipopago,
+          nroreferencia, 
+          ipagado,
+          saldo,
+          DetalleSunat,
+          icbper,
+          tipoboleta,
+          formapago,
+           montofpago,
+             monedafpago,
+             ccuotas,
+             fechavecredito,
+             montocuota,
+             tarjetadc,
+             transferencia,
+             montotarjetadc,
+             montotransferencia,
+             fechavenc,
+             efectivo,
+             visa,
+             yape,
+             plin,
+             mastercard,
+             deposito
+              )
+            values
+        ('$idusuario',
+        '$idsaldoini',
+        '$fecha_emision_01 $hora',
+        '$firma_digital_36',
+        '$idempresa',
+        '$tipo_documento_06',
+        '$SerieReal-$numero_boleta',
+        '$idcl',
+        '$codigo_tipo_15_1', 
+        '$monto_15_2',
+        '$sumatoria_igv_18_1',
+        '$sumatoria_igv_18_2',
+         (select codigo from catalogo5 where codigo='$sumatoria_igv_18_3'),
+         (select descripcion from catalogo5 where codigo='$sumatoria_igv_18_3'),
+         (select unece5153 from catalogo5 where codigo='$sumatoria_igv_18_3'),
+        '$importe_total_23',
+        '$codigo_leyenda_26_1', 
+        '$descripcion_leyenda_26_2', 
+        '$tipo_documento_25_1',
+        '$guia_remision_25',
+        '$version_ubl_37',
+        '$version_estructura_38',
+        '$tipo_moneda_24',
+        '$tasa_igv',
+        '$st',
+        '$tipodocuCliente',
+        '$rucCliente',
+        '$RazonSocial',
+        '$totaldescu',
+        '$vendedorsitio',
+        '$tcambio',
+        '$formapago',
+          '$nroreferencia',
+          '$ipagado',
+          '$saldo',
+          'ENVIANDO',
+          '$total_icbper',
+          '$tipoboleta',
+          '$formapago',
+          '$montofpago',
+          '$monedafpago',
+          '$ccuotas',
+          '$fechavecredito',
+          '$montocuota',
+          '$tadc',
+          '$transferencia',
+          '$montotar',
+          '$montotran',
+          '$fechavenc',
+          '$efectivo',
+          '$visa',
+          '$yape',
+          '$plin',
+          '$mastercard',
+          '$deposito'
+
+      )";
     //return ejecutarConsulta($sql);
     $idBoletaNew = ejecutarConsulta_retornarID($sql);
     $sw = true;
@@ -142,7 +298,7 @@ class Boleta
             '$vvu[$num_elementos]',
             '$subtotalBD[$num_elementos]',
             '$dctoitem[$num_elementos]',
-            '$descdet[$num_elementos]',
+            '0,
             '$unidad_medida[$num_elementos]'
 
             )";

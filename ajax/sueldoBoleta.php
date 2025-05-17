@@ -98,7 +98,7 @@ $importeconcepto=isset($_POST["importeconcepto"])? limpiarCadena($_POST["importe
 
 
 
-
+ if (isset($_GET["op"])) {
 switch ($_GET["op"]){
 
 
@@ -369,5 +369,5 @@ switch ($_GET["op"]){
 
 
 	
-}
+}}
 ?>

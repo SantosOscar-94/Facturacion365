@@ -36,7 +36,8 @@ if ($action == 'listar2') {
 
 
 
-switch ($_GET["op"]) {
+$op = isset($_GET["op"]) ? $_GET["op"] : '';
+switch ($op) {
 	case 'guardaryeditar':
 		if (empty($id)) {
 			$rspta = $catalogo6->insertar($codigo, $descripcion, $abrev);

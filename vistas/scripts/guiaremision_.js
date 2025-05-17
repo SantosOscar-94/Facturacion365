@@ -67,7 +67,7 @@ function mostrarform(flag)
         $("#listadoregistros").hide();
         $("#formularioregistros").show();
         $("#btnagregar").hide();
-        $("#btnGuardar").hide();
+        $("#btnGuardar").show();
         $("#btnCancelar").show();
         $("#btnAgregarArt").show();
         listarComprobante();

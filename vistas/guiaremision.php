@@ -461,12 +461,11 @@ if (!isset($_SESSION["nombre"])) {
                                 </div>
 
                               </div>
-
-
+                               
+                             
                               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class="btn btn-primary me-md-2" type="submit" id="btnGuardar"><i class="fas fa-save"></i>
-                                  EMITIR
-                                  GUÍA</button>
+                                  EMITIR GUÍA</button>
                                 <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i
                                     class="fas fa-arrow-circle-left"></i> CANCELAR</button>
                               </div>
