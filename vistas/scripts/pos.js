@@ -1893,12 +1893,10 @@ function cargarTiposDocIde() {
     success: function (data) {
       llenarSelect(data.aaData);
     },
-    error: function (xhr, status, error) {
-      console.error("Error al cargar los tipos de documento de identidad");
-      console.error(error);
-    },
+  
   });
 }
+
 
 function llenarSelect(data) {
   var select = $("#tipo_doc_ide");

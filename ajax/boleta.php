@@ -75,7 +75,7 @@ $tipoboleta = isset($_POST["tipoboleta"]) ? limpiarCadena($_POST["tipoboleta"]) 
 
 $ccuotas = isset($_POST["ccuotas"]) ? limpiarCadena($_POST["ccuotas"]) : "";
 $fechavecredito = isset($_POST["fechavecredito"]) ? limpiarCadena($_POST["fechavecredito"]) : "";
-$montocuota = isset($_POST["montocuota"]) ? limpiarCadena($_POST["montocuota"]) : "";
+$montocuota = isset($_POST["montocuota"]) ? limpiarCadena($_POST["montocuota"]) : 0;
 
 $tadc = isset($_POST["tadc"]) ? limpiarCadena($_POST["tadc"]) : "";
 $transferencia = isset($_POST["trans"]) ? limpiarCadena($_POST["trans"]) : "";
@@ -89,6 +89,14 @@ $yape = isset($_POST["yape"]) ? limpiarCadena($_POST["yape"]) : "";
 $plin = isset($_POST["plin"]) ? limpiarCadena($_POST["plin"]) : "";
 $mastercard = isset($_POST["mastercard"]) ? limpiarCadena($_POST["mastercard"]) : "";
 $deposito = isset($_POST["deposito"]) ? limpiarCadena($_POST["deposito"]) : "";
+
+$montocuotacre = isset($_POST["montocuotacre"]) ? limpiarCadena( $_POST["montocuotacre"]) : 0;
+
+
+$descdet = isset($_POST["descdet"]) ? limpiarCadena(  $_POST["descdet"] ): '';
+$ncuotahiden = isset($_POST["ncuotahiden"]) ? limpiarCadena( $_POST["ncuotahiden"] ): '';
+
+$fechapago = isset($_POST["fechapago"]) ? limpiarCadena(  $_POST["fechapago"] ): '';
 
 switch ($_GET["op"]) {
     case 'guardaryeditarBoleta':
@@ -107,7 +115,7 @@ switch ($_GET["op"]) {
                         $idcl = $reg->idpersona;
                     }
 
-                    $rspta = $boleta->insertar($idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $_POST["descdet"], $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $_POST["ncuotahiden"], $_POST["montocuotacre"], $_POST["fechapago"], $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
+                    $rspta = $boleta->insertar($idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia,  $montocuotacre,  $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
                     if ($rspta) {
                         echo "Se guardó la boleta correctamente";
                     } else {
@@ -115,7 +123,7 @@ switch ($_GET["op"]) {
                     }
                 } else {
 
-                    $rspta = $boleta->insertar($idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcliente, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $_POST["descdet"], $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $_POST["ncuotahiden"], $_POST["montocuotacre"], $_POST["fechapago"], $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
+                    $rspta = $boleta->insertar($idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcliente, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $montocuotacre,  $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
                     if ($rspta) {
                         echo "Se guardó la boleta correctamente";
                     } else {
@@ -129,102 +137,103 @@ switch ($_GET["op"]) {
             {
                 // SI EL TOTAL ES MENOR DE 700
 
-                if ($idcliente == "N") {
+              if ($idcliente == "N") {
 
                     $rspta = $persona->insertardeBoleta($RazonSocial, $tipo_doc_ide, $rucCliente, $domicilio_fiscal);
                     $IdC = $persona->mostrarId();
                     while ($reg = $IdC->fetch_object()) {
                         $idcl = $reg->idpersona;
                     }
-                    $rspta = $boleta->insertar($idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $_POST["descdet"], $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $_POST["ncuotahiden"], $_POST["montocuotacre"], $_POST["fechapago"], $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
+                    $rspta = $boleta->insertar($idusuario, $idsaldoini, $fecha_emision_01, $firma_digital_36, $idempresa, $tipo_documento_06, $numeracion_07, $idcl, $codigo_tipo_15_1, $monto_15_2, $sumatoria_igv_18_1, $sumatoria_igv_18_2, $codigo_tributo_18_3, $nombre_tributo_18_4, $codigo_internacional_18_5, $importe_total_23, $codigo_leyenda_26_1, $descripcion_leyenda_26_2, $tipo_documento_25_1, $guia_remision_25, $version_ubl_37, $version_estructura_38, $tipo_moneda_24, $tasa_igv, $_POST["idarticulo"], $_POST["numero_orden_item_29"], $_POST["cantidad_item_12"], $_POST["codigo_precio_14_1"], $_POST["precio_unitario"], $_POST["igvBD"], $_POST["igvBD"], $_POST["afectacionigv"], $_POST["codigotributo"], '', '', $_POST["igvBD2"], $_POST["vvu"], $_POST["subtotalBD"], $_POST["codigo"], $_POST["unidad_medida"], $idserie, $SerieReal, $numero_boleta, $tipo_doc_ide, $rucCliente, html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'), $hora, $_POST["sumadcto"], $vendedorsitio, $tcambio, $tdescuento, $domicilio_fiscal, $tipopago, $nroreferencia, $ipagado, $saldo, $descdet, $total_icbper, $tipoboleta, $_POST["cantidadreal"], $ccuotas, $fechavecredito, $montocuota, $tadc, $transferencia, $ncuotahiden, $montocuotacre, $fechapago, $fechavenc, $efectivo, $visa, $yape, $plin, $mastercard, $deposito);
                     if ($rspta) {
                         echo "Se guardó la boleta correctamente";
                     } else {
                         echo "Tienes que aperturar caja";
                     }
                     //
+                    //
 
 
                 } else //===========#####################
                 {
 
-                    $rspta = $boleta->insertar(
-                        $idusuario,
-                        $idsaldoini,
-                        $fecha_emision_01,
-                        $firma_digital_36,
-                        $idempresa,
-                        $tipo_documento_06,
-                        $numeracion_07,
-                        $idcliente,
-                        $codigo_tipo_15_1,
-                        $monto_15_2,
-                        $sumatoria_igv_18_1,
-                        $sumatoria_igv_18_2,
-                        $codigo_tributo_18_3,
-                        $nombre_tributo_18_4,
-                        $codigo_internacional_18_5,
-                        $importe_total_23,
-                        $codigo_leyenda_26_1,
-                        $descripcion_leyenda_26_2,
-                        $tipo_documento_25_1,
-                        $guia_remision_25,
-                        $version_ubl_37,
-                        $version_estructura_38,
-                        $tipo_moneda_24,
-                        $tasa_igv,
-                        $_POST["idarticulo"],
-                        $_POST["numero_orden_item_29"],
-                        $_POST["cantidad_item_12"],
-                        $_POST["codigo_precio_14_1"],
-                        $_POST["precio_unitario"],
-                        $_POST["igvBD"],
-                        $_POST["igvBD"],
-                        $_POST["afectacionigv"],
-                        $_POST["codigotributo"],
-                        '',
-                        '',
-                        $_POST["igvBD2"],
-                        $_POST["vvu"],
-                        $_POST["subtotalBD"],
-                        $_POST["codigo"],
-                        $_POST["unidad_medida"],
-                        $idserie,
-                        $SerieReal,
-                        $numero_boleta,
-                        $tipo_doc_ide,
-                        $rucCliente,
-                        html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
-                        $hora,
-                        $_POST["sumadcto"],
-                        $vendedorsitio,
-                        $tcambio,
-                        $tdescuento,
-                        $domicilio_fiscal,
-                        $tipopago,
-                        $nroreferencia,
-                        $ipagado,
-                        $saldo,
-                        $_POST["descdet"],
-                        $total_icbper,
-                        $tipoboleta,
-                        $_POST["cantidadreal"],
-                        $ccuotas,
-                        $fechavecredito,
-                        $montocuota,
-                        $tadc,
-                        $transferencia,
-                        $_POST["ncuotahiden"],
-                        $_POST["montocuotacre"],
-                        $_POST["fechapago"],
-                        $fechavenc,
-                        $efectivo,
-                        $visa,
-                        $yape,
-                        $plin,
-                        $mastercard,
-                        $deposito
-                    );
+                   $rspta = $boleta->insertar(
+    $idusuario,
+    $idsaldoini,
+    $fecha_emision_01,
+    $firma_digital_36,
+    $idempresa,
+    $tipo_documento_06,
+    $numeracion_07,
+    $idcliente,
+    $codigo_tipo_15_1,
+    $monto_15_2,
+    $sumatoria_igv_18_1,
+    $sumatoria_igv_18_2,
+    $codigo_tributo_18_3,
+    $nombre_tributo_18_4,
+    $codigo_internacional_18_5,
+    $importe_total_23,
+    $codigo_leyenda_26_1,
+    $descripcion_leyenda_26_2,
+    $tipo_documento_25_1,
+    $guia_remision_25,
+    $version_ubl_37,
+    $version_estructura_38,
+    $tipo_moneda_24,
+    $tasa_igv,
+    $_POST["idarticulo"],
+    $_POST["numero_orden_item_29"],
+    $_POST["cantidad_item_12"],
+    $_POST["codigo_precio_14_1"],
+    $_POST["precio_unitario"],
+    $_POST["igvBD"],
+    $_POST["igvBD"],
+    $_POST["afectacionigv"],
+    $_POST["codigotributo"],
+    '',
+    '',
+    $_POST["igvBD2"],
+    $_POST["vvu"],
+    $_POST["subtotalBD"],
+    $_POST["codigo"],
+    $_POST["unidad_medida"],
+    $idserie,
+    $SerieReal,
+    $numero_boleta,
+    $tipo_doc_ide,
+    $rucCliente,
+    html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
+    $hora,
+    $_POST["sumadcto"],
+    $vendedorsitio,
+    $tcambio,
+    $tdescuento,
+    $domicilio_fiscal,
+    $tipopago,
+    $nroreferencia,
+    $ipagado,
+    $saldo,
+    $descdet,
+    $total_icbper,
+    $tipoboleta,
+    $_POST["cantidadreal"],
+    $ccuotas,
+    $fechavecredito,
+    $montocuota,
+    $tadc,
+    $transferencia,
+    $ncuotahiden,
+    $montocuotacre,
+    $fechapago,
+    $fechavenc,
+    $efectivo,
+    $visa,
+    $yape,
+    $plin,
+    $mastercard,
+    $deposito
+);
                     if ($rspta) {
                         echo "Se guardó la boleta correctamente";
                     } else {
@@ -247,10 +256,7 @@ switch ($_GET["op"]) {
         echo json_encode($rspta);
         break;
 
-    case 'mostrarultimocomprobanteId':
-        $rspta = $boleta->mostrarultimocomprobanteId($_SESSION['idempresa']);
-        echo json_encode($rspta);
-        break;
+
 
 
     case 'anular':

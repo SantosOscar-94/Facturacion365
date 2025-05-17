@@ -152,21 +152,18 @@ while(n.length<length)
 
 //Función mostrar formulario
 function mostrarform(flag)
-{
+{   if (flag) {
+    $("#listadoregistros").hide();
+    $("#formularioregistros").show();
+    $("#btnagregar").hide();
+    $("#btnGuardar").show(); // <-- Esto debería mostrar el botón
+    $("#btnCancelar").show();
+    $("#btnAgregarArt").show();
+    listarComprobante();
+    incrementarNum();
+}
    
-    //limpiar();
-
-    if (flag)
-    {
-        $("#listadoregistros").hide();
-        $("#formularioregistros").show();
-        $("#btnagregar").hide();
-        $("#btnGuardar").hide();
-        $("#btnCancelar").show();
-        $("#btnAgregarArt").show();
-        listarComprobante();
-        incrementarNum();
-    }
+  
     else
     {
         $("#listadoregistros").show();

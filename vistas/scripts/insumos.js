@@ -188,29 +188,27 @@ function recalcularutilidad(idutilidad) {
 
 
 function listarutilidad() {
-	tabla = $('#tbllistadouti').dataTable(
-		{
-			"aProcessing": true,//Activamos el procesamiento del datatables
-			"aServerSide": true,//Paginación y filtrado realizados por el servidor
-			dom: 'Bfrtip',//Definimos los elementos del control de tabla
-			buttons: [
-
-			],
-			"ajax":
-			{
-				url: '../ajax/insumos.php?op=listarutilidad',
-				type: "get",
-				dataType: "json",
-				error: function (e) {
-					console.log(e.responseText);
-				}
-			},
-			"bDestroy": true,
-			"iDisplayLength": 5,//Paginación
-			"order": [[0, "desc"]]//Ordenar (columna,orden)
-		}).DataTable();
+    var idusuario = sessionStorage.getItem("idusuario"); // o donde guardes el id del usuario
+    tabla = $('#tbllistadouti').dataTable(
+        {
+            "aProcessing": true,
+            "aServerSide": true,
+            dom: 'Bfrtip',
+            buttons: [],
+            "ajax":
+            {
+                url: '../ajax/insumos.php?op=listarutilidad&idusuario=' + idusuario,
+                type: "get",
+                dataType: "json",
+                error: function (e) {
+                    console.log(e.responseText);
+                }
+            },
+            "bDestroy": true,
+            "iDisplayLength": 5,
+            "order": [[0, "desc"]]
+        }).DataTable();
 }
-
 
 
 function guardaryeditar(e) {
