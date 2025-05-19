@@ -933,11 +933,11 @@ class Factura
 
     if ($result) {
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+        
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rutafirma' => $cabextxml);
@@ -990,11 +990,11 @@ class Factura
     $con = 0; //COntador de variable
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $tipocomp = $row["tipocomp"];
         $numerodoc = $row["numerodoc"];
         $ruc = $datose->numero_ruc;
-      }
+      
     }
 
     $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
@@ -1743,7 +1743,7 @@ class Factura
       $icbper = "";
 
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+        
           $fecha[$i] = $row["fecha"]; //Fecha emision
           $serie[$i] = $row["serie"];
           $tipodocu[$i] = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
@@ -1934,7 +1934,7 @@ class Factura
                     <cbc:PrepaidAmount currencyID="' . $moneda[$i] . '">0.00</cbc:PrepaidAmount>
                     <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-        } //For cabecera
+       
         $i = $i + 1;
         $con = $con + 1;
       } //While cabecera
@@ -2166,9 +2166,9 @@ class Factura
 
       $con = 0;
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      
           $correocliente = $row["email"];
-        }
+       
 
         //Agregar=====================================================
         // Ruta del directorio donde están los archivos
@@ -2711,7 +2711,7 @@ class Factura
 
 
     while ($rowf = mysqli_fetch_assoc($resultf)) {
-      for ($if = 0; $if < count($resultf); $if++) {
+    
         $codigo[$if] = $rowf["codigo"];
         $cantidad[$if] = $rowf["cantidad"];
         $descripcion[$if] = $rowf["descripcion"];
@@ -2819,7 +2819,7 @@ class Factura
                     </cac:Price>
                 </cac:InvoiceLine>';
 
-      } //Fin for
+      
     } //Find e while
     $facturaXML .= '</Invoice>';
     //FIN DE CABECERA ===================================================================
@@ -2931,9 +2931,9 @@ class Factura
 
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+    
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3123,9 +3123,9 @@ class Factura
 
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+    
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3297,9 +3297,9 @@ class Factura
 
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+    
         $correocliente = $row["email"];
-      }
+   
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3470,9 +3470,9 @@ class Factura
     $con = 0;
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+   
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3698,10 +3698,9 @@ class Factura
     $con = 0;
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
-
+      
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
       $path = $rutafirma;
@@ -4415,9 +4414,9 @@ ORDER BY idfactura DESC";
     $result = mysqli_query($connect, $sql);
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+     
         $correocliente = $row["email"];
-      }
+     
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
       $path = $rutadata;
@@ -5346,7 +5345,7 @@ ORDER BY idfactura DESC";
       $icbper = "";
 
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+        
           $fecha[$i] = $row["fecha"]; //Fecha emision
           $serie[$i] = $row["serie"];
           $tipodocu[$i] = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
@@ -5537,7 +5536,7 @@ ORDER BY idfactura DESC";
                     <cbc:PrepaidAmount currencyID="' . $moneda[$i] . '">0.00</cbc:PrepaidAmount>
                     <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-        } //For cabecera
+    
         $i = $i + 1;
         $con = $con + 1;
       } //While cabecera

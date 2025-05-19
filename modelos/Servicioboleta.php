@@ -302,7 +302,7 @@ class Boletaservicio
     $con = 0;
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $fecha[$i] = $row["fecha"];
         $serie[$i] = $row["serie"];
         $tipodocu[$i] = $row["tipo_documento"];
@@ -354,7 +354,7 @@ class Boletaservicio
         $json['leyendas'][] = array('codLeyenda' => "1000", 'desLeyenda' => $con_letra);
         $json['tributos'][] = array('ideTributo' => $codigotrib[$i], 'nomTributo' => $nombretrib[$i], 'codTipTributo' => $codigointtrib[$i], 'mtoBaseImponible' => number_format($subtotal[$i], 2, '.', ''), 'mtoTributo' => number_format($igv[$i], 2, '.', ''));
         //Leyenda JSON
-      }
+      
       $i = $i + 1;
       $con = $con + 1;
     }
@@ -678,9 +678,9 @@ class Boletaservicio
     $result = mysqli_query($connect, $sql);
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+    
         $correocliente = $row["email"];
-      }
+     
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
       $path = $rutadata;
@@ -763,9 +763,9 @@ class Boletaservicio
     $con = 0;
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+  
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
