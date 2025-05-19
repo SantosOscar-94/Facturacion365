@@ -4,15 +4,11 @@ require "../config/Conexion.php";
 class Boleta
 {
   //Implementamos nuestro constructor
-  public function __construct()
-  {
-
-
-
-  }
+  public function __construct() {}
 
   //Implementamos un método para insertar registros para boleta
-  public function traeridsaldoini($idusuario){
+  public function traeridsaldoini($idusuario)
+  {
     $sql = "SELECT idsaldoini FROM saldocaja WHERE idusuario = '$idusuario' AND caja_abierta = b'0' LIMIT 1;";
     $result = ejecutarConsultaSimpleFila($sql);
     return $result['idsaldoini'];
@@ -122,12 +118,12 @@ class Boleta
     }
 
     $idsaldoini = $this->traeridsaldoini($idusuario);
-      // Verificar si hay una caja abierta para el usuario
-      if (!$idsaldoini) {
-        // No hay caja abierta, no se puede realizar la venta
-        return false;
+    // Verificar si hay una caja abierta para el usuario
+    if (!$idsaldoini) {
+      // No hay caja abierta, no se puede realizar la venta
+      return false;
     }
-    
+
     $sql = "insert into 
         boleta (idusuario,
           idsaldoini,
@@ -257,6 +253,11 @@ class Boleta
 
         while ($num_elementos < count($idarticulo)) {
           //Guardar en Detalle
+          if (is_array($descdet) && isset($descdet[$num_elementos])) {
+            $valor = $descdet[$num_elementos];
+          } else {
+            $valor = 0;
+          }
           $sql_detalle = "insert into 
 
         detalle_boleta_producto(idboleta, 
@@ -298,7 +299,7 @@ class Boleta
             '$vvu[$num_elementos]',
             '$subtotalBD[$num_elementos]',
             '$dctoitem[$num_elementos]',
-            '0,
+            '$valor',
             '$unidad_medida[$num_elementos]'
 
             )";
@@ -331,15 +332,15 @@ class Boleta
             '$cantidadreal[$num_elementos]', 
             '$vvu[$num_elementos]',
             '$unidad_medida[$num_elementos]',
-            (select saldo_finu - '$cantidad[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]') ,
+            (select saldo_finu - '$cantidad_item_12[$num_elementos]' from articulo where idarticulo='$idarticulo[$num_elementos]') ,
             (select precio_final_kardex from articulo where idarticulo='$idarticulo[$num_elementos]'), saldo_final * costo_2,
               '$idempresa',
               '$tcambio',
               '$tipo_moneda_24')";
-          $sqlupdatecliente = "update persona set email='$email',  domicilio_fiscal='$domicilio_fiscal', razon_social='$RazonSocial', nombre_comercial='$RazonSocial', nombres='$RazonSocial'  where idpersona='$idcl'";
+          //$sqlupdatecliente = "update persona set email='$email',  domicilio_fiscal='$domicilio_fiscal', razon_social='$RazonSocial', nombre_comercial='$RazonSocial', nombres='$RazonSocial'  where idpersona='$idcl'";
           ejecutarConsulta($sql_detalle);
           ejecutarConsulta($sql_kardex);
-          ejecutarConsulta($sqlupdatecliente);
+         // ejecutarConsulta($sqlupdatecliente);
           if ($tipoboleta != 'servicios') {
             $sql_update_articulo = "update
             articulo 
@@ -491,12 +492,10 @@ class Boleta
         estado='0' 
         where 
         idboleta='$idboleta'";
-
       }
       ejecutarConsulta($sql_update_articulo) or $sw = false;
       ejecutarConsulta($sql_kardex) or $sw = false;
       ejecutarConsulta($sqlestado) or $sw = false;
-
     }
 
 
@@ -601,7 +600,7 @@ comentario_baja
 
     while ($row = mysqli_fetch_assoc($result)) {
 
-      for ($i = 0; $i <= count($result); $i++) {
+  
 
         $fecha[$i] = $row["fecha"];
 
@@ -632,9 +631,7 @@ comentario_baja
         $i = $i + 1;
 
         $con = $con + 1;
-
-      }
-
+      
     }
 
 
@@ -648,7 +645,6 @@ comentario_baja
 
 
     return $sw;
-
   }
 
 
@@ -669,7 +665,6 @@ comentario_baja
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
     $query = "select dt.idboleta, a.idarticulo, dt.cantidad_item_12, dt.valor_uni_item_31, a.codigo, a.unidad_medida  from detalle_boleta_producto dt inner join articulo a on dt.idarticulo=a.idarticulo  where idboleta='$idboleta'";
@@ -815,9 +810,6 @@ comentario_baja
 
 
              0, 0, 0)";
-
-
-
       }
 
 
@@ -845,9 +837,6 @@ comentario_baja
         idboleta='$idboleta'";
 
       ejecutarConsulta($sqlestado) or $sw = false;
-
-
-
     }
 
 
@@ -865,9 +854,6 @@ comentario_baja
 
 
     return $sw;
-
-
-
   }
 
 
@@ -908,7 +894,6 @@ comentario_baja
         boleta b inner join persona p on b.idcliente=p.idpersona inner join usuario u on b.idusuario=u.idusuario WHERE b.idboleta='$idboleta'";
 
     return ejecutarConsultaSimpleFila($sql);
-
   }
 
 
@@ -937,7 +922,6 @@ comentario_baja
         detalle_fac_art df inner join articulo a on df.idarticulo=a.idarticulo where df.idboleta='$idboleta'";
 
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -946,10 +930,10 @@ comentario_baja
 
   public function listar($idempresa, $idusuario)
   {
-      // Obtener la fecha actual en formato MySQL
-      $fecha_actual = date('Y-m-d');
-  
-      $sql = "
+    // Obtener la fecha actual en formato MySQL
+    $fecha_actual = date('Y-m-d');
+
+    $sql = "
       select 
           b.idboleta,
           DATE_FORMAT(b.fecha_emision_01, '%d/%m/%y') AS fecha,
@@ -992,16 +976,16 @@ comentario_baja
       ORDER BY
           b.idboleta DESC;
       ";
-  
-      return ejecutarConsulta($sql);
+
+    return ejecutarConsulta($sql);
   }
 
   public function listarTodo($idempresa)
   {
-      // Obtener la fecha actual en formato MySQL
-      $fecha_actual = date('Y-m-d');
-  
-      $sql = "
+    // Obtener la fecha actual en formato MySQL
+    $fecha_actual = date('Y-m-d');
+
+    $sql = "
       select 
           b.idboleta,
           DATE_FORMAT(b.fecha_emision_01, '%d/%m/%y') AS fecha,
@@ -1042,10 +1026,10 @@ comentario_baja
       ORDER BY
           b.idboleta DESC;
       ";
-  
-      return ejecutarConsulta($sql);
+
+    return ejecutarConsulta($sql);
   }
-  
+
 
 
 
@@ -1090,7 +1074,6 @@ comentario_baja
         and u.idusuario = '$idusuario' -- Agregar condición para idusuario
         and (u.cargo = 0 OR (u.cargo = 1 AND b.idusuario = '$idusuario')) -- Agregar condición para cargo
         order by b.idboleta desc";
-
     } else if ($dia == '0') {
 
       $sql = "select 
@@ -1223,7 +1206,6 @@ comentario_baja
             b.idboleta = '$idboleta' AND e.idempresa = '$idempresa' and cu.tipocomprobante = '03'
         GROUP BY b.idboleta";
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -1256,7 +1238,6 @@ comentario_baja
         db.idboleta='$idboleta'";
 
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -1336,7 +1317,6 @@ FROM
 ORDER BY idboleta DESC";
 
     return ejecutarConsulta($sql);
-
   }
 
 
@@ -1357,7 +1337,6 @@ ORDER BY idboleta DESC";
         documento='factura' or documento='boleta' or documento='nota de credito'or documento='nota de debito' group by documento";
 
     return ejecutarConsulta($sql);
-
   }
 
   public function EnviarBoletaWhatsap($idboleta, $numeracion_07)
@@ -1388,7 +1367,6 @@ ORDER BY idboleta DESC";
     ejecutarConsulta($sqlestado) or $sw = false;
 
     return $sw;
-
   }
 
 
@@ -1399,7 +1377,6 @@ ORDER BY idboleta DESC";
     $sql = "select numeracion_07 from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
 
     return ejecutarConsultaSimpleFila($sql);
-
   }
 
 
@@ -1410,7 +1387,6 @@ ORDER BY idboleta DESC";
     $sql = "select b.idboleta, e.tipoimpresion from boleta b inner join empresa e on b.idempresa=e.idempresa  where e.idempresa='$idempresa'  order by idboleta desc limit 1";
 
     return ejecutarConsultaSimpleFila($sql);
-
   }
 
 
@@ -1445,7 +1421,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -1486,11 +1461,10 @@ ORDER BY idboleta DESC";
 
     while ($row = mysqli_fetch_assoc($result)) {
 
-      for ($i = 0; $i <= count($result); $i++) {
+     
 
         $correocliente = $row["email"];
-
-      }
+      
 
       //Agregar=====================================================
 
@@ -1529,9 +1503,7 @@ ORDER BY idboleta DESC";
           // Realizamos un break para que el ciclo se interrumpa
 
           break;
-
         }
-
       }
 
       $cabext = $rutadata . $archivoBoletaData . '.json';
@@ -1583,9 +1555,7 @@ ORDER BY idboleta DESC";
       $i = $i + 1;
 
       $con = $con + 1;
-
     }
-
   }
 
 
@@ -1630,9 +1600,9 @@ ORDER BY idboleta DESC";
     //$variable=array();
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+      
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
       $path = $rutafirma;
@@ -1758,7 +1728,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -2111,7 +2080,6 @@ ORDER BY idboleta DESC";
                 <cbc:ID>FormaPago</cbc:ID>
                 <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
-
       } else { // SI ES AL CREDITO
 
         $boletaXML .= '<cac:PaymentTerms>
@@ -2143,7 +2111,6 @@ ORDER BY idboleta DESC";
           }
           $i = $i + 1;
         }
-
       }
 
 
@@ -2183,7 +2150,6 @@ ORDER BY idboleta DESC";
                             </cac:TaxScheme>
                          </cac:TaxCategory>
                       </cac:TaxSubtotal>';
-
       }
 
 
@@ -2212,7 +2178,6 @@ ORDER BY idboleta DESC";
       $i = $i + 1;
 
       $con = $con + 1;
-
     } //While cabecera
 
 
@@ -2281,7 +2246,6 @@ ORDER BY idboleta DESC";
 
         if ($codtrib[$ib] == '9997') {
           $igv_ = "0";
-
         } else {
           $igv_ = $configE->igv;
         }
@@ -2358,9 +2322,7 @@ ORDER BY idboleta DESC";
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-
-        }
-        ;
+        };
 
 
 
@@ -2382,9 +2344,6 @@ ORDER BY idboleta DESC";
                         <cbc:PriceAmount currencyID="' . $monedaD[$ib] . '">' . number_format($vui[$ib], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
-
-
       } //Fin for
 
     } //Find e while 
@@ -2429,11 +2388,9 @@ ORDER BY idboleta DESC";
       $imageData = base64_encode($imagen);
       rename($cabextxml, $rutafirma . $cabxml);
       rename($filenaz, $rutaenvio . $filenaz);
-
     } else {
 
       $out = "Error al comprimir archivo";
-
     }
 
 
@@ -2452,9 +2409,6 @@ ORDER BY idboleta DESC";
 
 
     return $rpta;
-
-
-
   } //Fin de funcion
 
 
@@ -2475,7 +2429,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -2706,7 +2659,7 @@ ORDER BY idboleta DESC";
 
       while ($row = mysqli_fetch_assoc($result)) {
 
-        for ($i = 0; $i <= count($result); $i++) {
+        
 
           $fecha[$i] = $row["fecha"]; //Fecha emision
 
@@ -2759,7 +2712,6 @@ ORDER BY idboleta DESC";
           if ($moneda[$i] == 'USD') {
 
             $Lmoneda = "DOLARES AMERICANOS";
-
           }
 
 
@@ -3008,7 +2960,6 @@ ORDER BY idboleta DESC";
                          </cac:TaxCategory>
 
                       </cac:TaxSubtotal>';
-
           }
 
 
@@ -3036,13 +2987,11 @@ ORDER BY idboleta DESC";
                     <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
 
                 </cac:LegalMonetaryTotal>';
-
-        } //For cabecera
+       
 
         $i = $i + 1;
 
         $con = $con + 1;
-
       } //While cabecera
 
 
@@ -3132,7 +3081,6 @@ ORDER BY idboleta DESC";
 
           if ($codtrib[$ib] == '9997') {
             $igv_ = "0";
-
           } else {
             $igv_ = $configE->igv;
           }
@@ -3232,9 +3180,7 @@ ORDER BY idboleta DESC";
                     </cac:TaxCategory>
 
                  </cac:TaxSubtotal>';
-
-          }
-          ;
+          };
 
 
 
@@ -3267,9 +3213,6 @@ ORDER BY idboleta DESC";
                     </cac:Price>
 
                 </cac:InvoiceLine>';
-
-
-
         } //Fin for
 
       } //Find e while 
@@ -3339,11 +3282,9 @@ ORDER BY idboleta DESC";
         rename($cabextxml, $rutafirma . $cabxml);
 
         rename($filenaz, $rutaenvio . $filenaz);
-
       } else {
 
         $out = "Error al comprimir archivo";
-
       }
 
 
@@ -3424,7 +3365,6 @@ ORDER BY idboleta DESC";
         printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
         exit();
-
       }
 
 
@@ -3475,11 +3415,10 @@ ORDER BY idboleta DESC";
 
       while ($row = mysqli_fetch_assoc($result)) {
 
-        for ($i = 0; $i <= count($result); $i++) {
+        
 
           $correocliente = $row["email"];
-
-        }
+        
 
 
 
@@ -3522,9 +3461,7 @@ ORDER BY idboleta DESC";
             // Realizamos un break para que el ciclo se interrumpa
 
             break;
-
           }
-
         }
 
         //$url=$rutafirma.$archivoFactura.'.xml';
@@ -3628,7 +3565,6 @@ ORDER BY idboleta DESC";
             $zip->extractTo($rutaunzip);
 
             $zip->close();
-
           }
 
           $xmlFinal = $rutaunzip . 'R-' . $boleta . '.xml';
@@ -3654,11 +3590,9 @@ ORDER BY idboleta DESC";
             $msg = "Aceptada por SUNAT";
 
             $sqlCodigo = "update boleta set CodigoRptaSunat='$rpta[0]', DetalleSunat='$data[0]', estado='5' where idboleta='$idboleta'";
-
           } else {
 
             $sqlCodigo = "update boleta set CodigoRptaSunat='$rpta[0]', DetalleSunat='$data[0]', estado='4' where idboleta='$idboleta'";
-
           }
 
           ejecutarConsulta($sqlCodigo);
@@ -3671,11 +3605,7 @@ ORDER BY idboleta DESC";
           $exception = print_r($client->__getLastResponse());
           $sqlCodigo = "update boleta set CodigoRptaSunat='', DetalleSunat='VERIFICAR ENVIO' where idboleta='$idboleta'";
           ejecutarConsulta($sqlCodigo);
-
         }
-
-
-
       } //Fin While
 
 
@@ -3710,7 +3640,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -4082,7 +4011,6 @@ ORDER BY idboleta DESC";
                 <cbc:ID>FormaPago</cbc:ID>
                 <cbc:PaymentMeansID>' . $formapago . '</cbc:PaymentMeansID>
                 </cac:PaymentTerms>';
-
       } else { // SI ES AL CREDITO
 
         $boletaXML .= '<cac:PaymentTerms>
@@ -4114,7 +4042,6 @@ ORDER BY idboleta DESC";
           }
           $i = $i + 1;
         }
-
       }
 
 
@@ -4154,7 +4081,6 @@ ORDER BY idboleta DESC";
                             </cac:TaxScheme>
                          </cac:TaxCategory>
                       </cac:TaxSubtotal>';
-
       }
 
 
@@ -4183,7 +4109,6 @@ ORDER BY idboleta DESC";
       $i = $i + 1;
 
       $con = $con + 1;
-
     } //While cabecera
 
 
@@ -4252,7 +4177,6 @@ ORDER BY idboleta DESC";
 
         if ($codtrib[$ib] == '9997') {
           $igv_ = "0";
-
         } else {
           $igv_ = $configE->igv;
         }
@@ -4329,9 +4253,7 @@ ORDER BY idboleta DESC";
                        </cac:TaxScheme>
                     </cac:TaxCategory>
                  </cac:TaxSubtotal>';
-
-        }
-        ;
+        };
 
 
 
@@ -4353,9 +4275,6 @@ ORDER BY idboleta DESC";
                         <cbc:PriceAmount currencyID="' . $monedaD[$ib] . '">' . number_format($vui[$ib], 5, '.', '') . '</cbc:PriceAmount>
                     </cac:Price>
                 </cac:InvoiceLine>';
-
-
-
       } //Fin for
 
     } //Find e while 
@@ -4425,11 +4344,9 @@ ORDER BY idboleta DESC";
       rename($cabextxml, $rutafirma . $cabxml);
 
       rename($filenaz, $rutaenvio . $filenaz);
-
     } else {
 
       $out = "Error al comprimir archivo";
-
     }
 
 
@@ -4457,9 +4374,6 @@ ORDER BY idboleta DESC";
 
 
     return $rpta;
-
-
-
   } //Fin de funcion
 
 
@@ -4521,7 +4435,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -4564,13 +4477,11 @@ ORDER BY idboleta DESC";
 
     $con = 0;
 
-    while ($row = mysqli_fetch_assoc($result)) {
+    
 
-      for ($i = 0; $i <= count($result); $i++) {
-
-        $correocliente = $row["email"];
-
-      }
+      while ($row = mysqli_fetch_assoc($result)) {
+    $correocliente = $row["email"];
+    // ... tu código aquí ...
 
 
 
@@ -4613,9 +4524,7 @@ ORDER BY idboleta DESC";
           // Realizamos un break para que el ciclo se interrumpa
 
           break;
-
         }
-
       }
 
       //$url=$rutafirma.$archivoFactura.'.xml';
@@ -4719,7 +4628,6 @@ ORDER BY idboleta DESC";
           $zip->extractTo($rutaunzip);
 
           $zip->close();
-
         }
 
         $xmlFinal = $rutaunzip . 'R-' . $boleta . '.xml';
@@ -4745,12 +4653,10 @@ ORDER BY idboleta DESC";
           $msg = "Aceptada por SUNAT";
 
           $sqlCodigo = "update boleta set CodigoRptaSunat='$rpta[0]', DetalleSunat='$data[0]', estado='5' where idboleta='$idboleta'";
-
         } else {
 
           $sqlCodigo = "update boleta set CodigoRptaSunat='$rpta[0]', DetalleSunat='No enviado revizar',
            estado='4' where idboleta='$idboleta'";
-
         }
 
 
@@ -4772,11 +4678,7 @@ ORDER BY idboleta DESC";
 
 
         $exception = print_r($client->__getLastResponse());
-
       }
-
-
-
     } //Fin While
 
 
@@ -4851,7 +4753,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -4896,11 +4797,10 @@ ORDER BY idboleta DESC";
 
     while ($row = mysqli_fetch_assoc($result)) {
 
-      for ($i = 0; $i <= count($result); $i++) {
+      
 
         $correocliente = $row["email"];
-
-      }
+      
 
 
 
@@ -4943,9 +4843,7 @@ ORDER BY idboleta DESC";
           // Realizamos un break para que el ciclo se interrumpa
 
           break;
-
         }
-
       }
 
       //$url=$rutafirma.$archivoFactura.'.xml';
@@ -5049,7 +4947,6 @@ ORDER BY idboleta DESC";
           $zip->extractTo($rutaunzip);
 
           $zip->close();
-
         }
 
         $xmlFinal = $rutaunzip . 'R-' . $boleta . '.xml';
@@ -5073,11 +4970,7 @@ ORDER BY idboleta DESC";
 
       } catch (SoapFault $exception) {
         $exception = print_r($client->__getLastResponse());
-
       }
-
-
-
     } //Fin While
 
     //return $exception;
@@ -5102,7 +4995,6 @@ ORDER BY idboleta DESC";
       printf("Falló conexión a la base de datos: %s\n", mysqli_connect_error());
 
       exit();
-
     }
 
 
@@ -5165,30 +5057,24 @@ ORDER BY idboleta DESC";
 
       while ($row = mysqli_fetch_assoc($result)) {
 
-        for ($i = 0; $i <= count($result); $i++) {
+        
 
           $tipocomp = $row["tipocomp"];
 
           $numerodoc = $row["numerodoc"];
 
           $ruc = $datose->numero_ruc;
-
-        }
-
+        
       }
 
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
 
       $rpta = array('rutafirma' => $cabextxml);
-
-
-
     } else {
 
 
 
       $rpta = array('rutafirma' => 'Aún no se ha creado el archivo XML.');
-
     }
 
 
@@ -5196,7 +5082,6 @@ ORDER BY idboleta DESC";
 
 
     return $rpta;
-
   }
 
 
@@ -5240,13 +5125,11 @@ ORDER BY idboleta DESC";
     $result = mysqli_query($connect, $query);
     $con = 0; //COntador de variable
 
-    while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
-        $tipocomp = $row["tipocomp"];
-        $numerodoc = $row["numerodoc"];
-        $ruc = $datose->numero_ruc;
-      }
-    }
+   while ($row = mysqli_fetch_assoc($result)) {
+    $tipocomp = $row["tipocomp"];
+    $numerodoc = $row["numerodoc"];
+    $ruc = $datose->numero_ruc;
+}
 
     $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
 
@@ -5268,7 +5151,6 @@ ORDER BY idboleta DESC";
     $rutaxmlrpta = $rutaunzipxml . 'R-' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
     $rpta = array('rpta' => $rutarptazip, 'rutaxmlr' => $rutaxmlrpta);
     return $rpta;
-
   }
 
 
@@ -6161,9 +6043,9 @@ ORDER BY idboleta DESC";
 
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+     
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -6262,7 +6144,6 @@ ORDER BY idboleta DESC";
           }
           ejecutarConsulta($sqlCodigo);
           return $response->statusCdr->statusMessage . " para comprobante: " . $ZipFinal;
-
         } else {
 
           return $response->statusCdr->statusCode;
@@ -6522,7 +6403,7 @@ ORDER BY idboleta DESC";
     $umedida = array();
 
     while ($row = mysqli_fetch_assoc($resultdb)) {
-      for ($i = 0; $i <= count($resultdb); $i++) {
+     
 
         $idarticulo[$i] = $row["idarticulo"];
         $numero_orden_item_29[$i] = $row["numero_orden_item_29"];
@@ -6587,12 +6468,10 @@ ORDER BY idboleta DESC";
         '$umedida[$i]'
         )
         ";
-
       }
       $detalle = ejecutarConsulta($sqldetalle); // or $sw=false; 
       $i++;
-
-    }
+    
 
 
     return $detalle;
@@ -6607,32 +6486,4 @@ ORDER BY idboleta DESC";
       ('$idusuario', '$tcomprobante','$idcomprobante', now())";
     return ejecutarConsulta($sql);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-?>

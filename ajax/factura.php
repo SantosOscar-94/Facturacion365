@@ -125,6 +125,15 @@ $plin = isset($_POST["plin"]) ? limpiarCadena($_POST["plin"]) : "";
 $mastercard = isset($_POST["mastercard"]) ? limpiarCadena($_POST["mastercard"]) : "";
 $deposito = isset($_POST["deposito"]) ? limpiarCadena($_POST["deposito"]) : "";
 
+$montocuotacre = isset($_POST["montocuotacre"]) ? limpiarCadena($_POST["montocuotacre"]) : 0;
+
+
+$descdet = isset($_POST["descdet"]) ? limpiarCadena((string)$_POST["descdet"]) : '';
+
+$ncuotahiden = isset($_POST["ncuotahiden"]) ? limpiarCadena($_POST["ncuotahiden"]) : '';
+
+$fechapago = isset($_POST["fechapago"]) ? limpiarCadena($_POST["fechapago"]) : '';
+
 switch ($_GET["op"]) {
     case 'guardaryeditarFactura':
 
@@ -314,9 +323,9 @@ switch ($_GET["op"]) {
                     $otroscargos,
                     $tadc,
                     $transferencia,
-                    $_POST["ncuotahiden"],
-                    $_POST["montocuotacre"],
-                    $_POST["fechapago"],
+                    $ncuotahiden,
+                    $montocuotacre,
+                    $fechapago,
                     $fechavenc,
                     $efectivo,
                     $visa,
@@ -395,7 +404,7 @@ switch ($_GET["op"]) {
                     $nroreferencia,
                     $ipagado,
                     $saldo,
-                    $_POST["descdet"],
+                    $descdet,
                     $total_icbper,
                     $tipofactura,
                     $_POST["cantidadreal"],
@@ -406,9 +415,9 @@ switch ($_GET["op"]) {
                     $otroscargos,
                     $tadc,
                     $transferencia,
-                    $_POST["ncuotahiden"],
-                    $_POST["montocuotacre"],
-                    $_POST["fechapago"],
+                    $ncuotahiden,
+                    $montocuotacre,
+                    $fechapago,
                     $fechavenc,
                     $efectivo,
                     $visa,
@@ -507,9 +516,9 @@ switch ($_GET["op"]) {
                 '',
                 $tadc,
                 $transferencia,
-                $_POST["ncuotahiden"],
-                $_POST["montocuotacre"],
-                $_POST["fechapago"],
+                $ncuotahiden,
+                $montocuotacre,
+                $fechapago,
                 $fedc
             );
 
@@ -594,9 +603,9 @@ switch ($_GET["op"]) {
                 '',
                 $tadc,
                 $transferencia,
-                $_POST["ncuotahiden"],
-                $_POST["montocuotacre"],
-                $_POST["fechapago"],
+                $ncuotahiden,
+                $montocuotacre,
+                $fechapago,
                 $fedc
             );
 

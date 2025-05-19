@@ -2786,7 +2786,7 @@ FROM (
       $icbper = "";
 
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+        
           $fecha[$i] = $row["fecha"]; //Fecha emision
           $serie[$i] = $row["serie"];
           $tipodocu[$i] = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
@@ -2961,7 +2961,7 @@ FROM (
                     <cbc:PrepaidAmount currencyID="' . $moneda[$i] . '">0.00</cbc:PrepaidAmount>  
                     <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-        } //For cabecera
+       
         $i = $i + 1;
         $con = $con + 1;
       } //While cabecera
@@ -3234,7 +3234,7 @@ FROM (
       $icbper = "";
 
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      
           $fecha[$i] = $row["fecha"]; //Fecha emision
           $serie[$i] = $row["serie"];
           $tipodocu[$i] = $row["tipodocuCliente"]; //Tipo de documento de cliente ruc o dni
@@ -3410,7 +3410,7 @@ FROM (
                     <cbc:PrepaidAmount currencyID="' . $moneda[$i] . '">0.00</cbc:PrepaidAmount>  
                     <cbc:PayableAmount currencyID="' . $moneda[$i] . '">' . $total[$i] . '</cbc:PayableAmount>
                 </cac:LegalMonetaryTotal>';
-        } //For cabecera
+     
         $i = $i + 1;
         $con = $con + 1;
       } //While cabecera
@@ -3642,9 +3642,9 @@ FROM (
 
       $con = 0;
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+        
           $correocliente = $row["email"];
-        }
+        
 
         //Agregar=====================================================
         // Ruta del directorio donde están los archivos
@@ -3805,7 +3805,7 @@ FROM (
 
       $con = 0;
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+        
           $correocliente = $row["email"];
         }
 
@@ -3963,11 +3963,11 @@ FROM (
 
       if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-          for ($i = 0; $i <= count($result); $i++) {
+        
             $tipocomp = $row["tipocomp"];
             $numerodoc = $row["numerodoc"];
             $ruc = $datose->numero_ruc;
-          }
+          
         }
         $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
         $rpta = array('rutafirma' => $cabextxml);
@@ -4012,11 +4012,11 @@ FROM (
 
       if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-          for ($i = 0; $i <= count($result); $i++) {
+       
             $tipocomp = $row["tipocomp"];
             $numerodoc = $row["numerodoc"];
             $ruc = $datose->numero_ruc;
-          }
+        
         }
         $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
         $rpta = array('rutafirma' => $cabextxml);
@@ -4074,11 +4074,11 @@ FROM (
       $con = 0; //COntador de variable
 
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+        
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+        
       }
 
       $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
@@ -4113,11 +4113,11 @@ FROM (
       $con = 0; //COntador de variable
 
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+       
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+      
       }
 
       $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
@@ -5870,11 +5870,11 @@ FROM (
 
     if ($result) {
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+    
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       //$filexml=simplexml_load_file($cabextxml);
@@ -5928,11 +5928,11 @@ FROM (
 
     if ($result) {
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+       
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       $rpta = array('rutafirma' => $cabextxml);
@@ -5983,11 +5983,11 @@ FROM (
     $con = 0; //COntador de variable
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $tipocomp = $row["tipocomp"];
         $numerodoc = $row["numerodoc"];
         $ruc = $datose->numero_ruc;
-      }
+      
     }
 
     $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
@@ -6033,11 +6033,11 @@ FROM (
     $con = 0; //COntador de variable
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $tipocomp = $row["tipocomp"];
         $numerodoc = $row["numerodoc"];
         $ruc = $datose->numero_ruc;
-      }
+      
     }
 
     $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";

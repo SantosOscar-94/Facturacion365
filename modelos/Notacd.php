@@ -2872,9 +2872,9 @@ class Notacd
     $con = 0;
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+   
         $correocliente = $row["email"];
-      }
+   
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3165,7 +3165,7 @@ class Notacd
 
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $tipodocmod = $row["tipo_doc_mod"]; //tipo de documento
         //
         $fecha[$i] = $row["fecha"]; //Fecha emision
@@ -3321,7 +3321,7 @@ class Notacd
                 </cac:LegalMonetaryTotal>';
 
 
-      } //For cabecera
+   
       $i = $i + 1;
       $con = $con + 1;
     } //While cabecera
@@ -3556,9 +3556,9 @@ class Notacd
 
     $con = 0;
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+      
         $correocliente = $row["email"];
-      }
+      
 
       //Agregar=====================================================
       // Ruta del directorio donde están los archivos
@@ -3705,11 +3705,11 @@ class Notacd
 
     if ($result) {
       while ($row = mysqli_fetch_assoc($result)) {
-        for ($i = 0; $i <= count($result); $i++) {
+      
           $tipocomp = $row["tipocomp"];
           $numerodoc = $row["numerodoc"];
           $ruc = $datose->numero_ruc;
-        }
+        
       }
       $cabextxml = $rutafirma . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".xml";
       //$cabextxml="..//sfs//firma//20603504969-07-FF01-1.xml";
@@ -3763,11 +3763,11 @@ class Notacd
     $con = 0; //COntador de variable
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+     
         $tipocomp = $row["tipocomp"];
         $numerodoc = $row["numerodoc"];
         $ruc = $datose->numero_ruc;
-      }
+     
     }
 
     $rutarptazip = $rutarpta . 'R' . $ruc . "-" . $tipocomp . "-" . $numerodoc . ".zip";
@@ -3978,7 +3978,7 @@ class Notacd
 
 
     while ($row = mysqli_fetch_assoc($result)) {
-      for ($i = 0; $i <= count($result); $i++) {
+     
         $tipodocmod = $row["tipo_doc_mod"]; //tipo de documento
         //
         $fecha[$i] = $row["fecha"]; //Fecha emision
@@ -4133,7 +4133,7 @@ class Notacd
               </cac:RequestedMonetaryTotal>';
 
 
-      } //For cabecera
+    
       $i = $i + 1;
       $con = $con + 1;
     } //While cabecera

@@ -90,13 +90,14 @@ $plin = isset($_POST["plin"]) ? limpiarCadena($_POST["plin"]) : "";
 $mastercard = isset($_POST["mastercard"]) ? limpiarCadena($_POST["mastercard"]) : "";
 $deposito = isset($_POST["deposito"]) ? limpiarCadena($_POST["deposito"]) : "";
 
-$montocuotacre = isset($_POST["montocuotacre"]) ? limpiarCadena( $_POST["montocuotacre"]) : 0;
+$montocuotacre = isset($_POST["montocuotacre"]) ? limpiarCadena($_POST["montocuotacre"]) : 0;
 
 
-$descdet = isset($_POST["descdet"]) ? limpiarCadena(  $_POST["descdet"] ): '';
-$ncuotahiden = isset($_POST["ncuotahiden"]) ? limpiarCadena( $_POST["ncuotahiden"] ): '';
+$descdet = isset($_POST["descdet"]) ? limpiarCadena((string)$_POST["descdet"]) : '';
 
-$fechapago = isset($_POST["fechapago"]) ? limpiarCadena(  $_POST["fechapago"] ): '';
+$ncuotahiden = isset($_POST["ncuotahiden"]) ? limpiarCadena($_POST["ncuotahiden"]) : '';
+
+$fechapago = isset($_POST["fechapago"]) ? limpiarCadena($_POST["fechapago"]) : '';
 
 switch ($_GET["op"]) {
     case 'guardaryeditarBoleta':
@@ -129,15 +130,13 @@ switch ($_GET["op"]) {
                     } else {
                         echo "Tienes que aperturar caja";
                     }
-
-
                 } //FIN DE SEGUNDO IF
 
             } else //ELSE DE PRIMER IF
             {
                 // SI EL TOTAL ES MENOR DE 700
 
-              if ($idcliente == "N") {
+                if ($idcliente == "N") {
 
                     $rspta = $persona->insertardeBoleta($RazonSocial, $tipo_doc_ide, $rucCliente, $domicilio_fiscal);
                     $IdC = $persona->mostrarId();
@@ -157,94 +156,92 @@ switch ($_GET["op"]) {
                 } else //===========#####################
                 {
 
-                   $rspta = $boleta->insertar(
-    $idusuario,
-    $idsaldoini,
-    $fecha_emision_01,
-    $firma_digital_36,
-    $idempresa,
-    $tipo_documento_06,
-    $numeracion_07,
-    $idcliente,
-    $codigo_tipo_15_1,
-    $monto_15_2,
-    $sumatoria_igv_18_1,
-    $sumatoria_igv_18_2,
-    $codigo_tributo_18_3,
-    $nombre_tributo_18_4,
-    $codigo_internacional_18_5,
-    $importe_total_23,
-    $codigo_leyenda_26_1,
-    $descripcion_leyenda_26_2,
-    $tipo_documento_25_1,
-    $guia_remision_25,
-    $version_ubl_37,
-    $version_estructura_38,
-    $tipo_moneda_24,
-    $tasa_igv,
-    $_POST["idarticulo"],
-    $_POST["numero_orden_item_29"],
-    $_POST["cantidad_item_12"],
-    $_POST["codigo_precio_14_1"],
-    $_POST["precio_unitario"],
-    $_POST["igvBD"],
-    $_POST["igvBD"],
-    $_POST["afectacionigv"],
-    $_POST["codigotributo"],
-    '',
-    '',
-    $_POST["igvBD2"],
-    $_POST["vvu"],
-    $_POST["subtotalBD"],
-    $_POST["codigo"],
-    $_POST["unidad_medida"],
-    $idserie,
-    $SerieReal,
-    $numero_boleta,
-    $tipo_doc_ide,
-    $rucCliente,
-    html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
-    $hora,
-    $_POST["sumadcto"],
-    $vendedorsitio,
-    $tcambio,
-    $tdescuento,
-    $domicilio_fiscal,
-    $tipopago,
-    $nroreferencia,
-    $ipagado,
-    $saldo,
-    $descdet,
-    $total_icbper,
-    $tipoboleta,
-    $_POST["cantidadreal"],
-    $ccuotas,
-    $fechavecredito,
-    $montocuota,
-    $tadc,
-    $transferencia,
-    $ncuotahiden,
-    $montocuotacre,
-    $fechapago,
-    $fechavenc,
-    $efectivo,
-    $visa,
-    $yape,
-    $plin,
-    $mastercard,
-    $deposito
-);
+                    $rspta = $boleta->insertar(
+                        $idusuario,
+                        $idsaldoini,
+                        $fecha_emision_01,
+                        $firma_digital_36,
+                        $idempresa,
+                        $tipo_documento_06,
+                        $numeracion_07,
+                        $idcliente,
+                        $codigo_tipo_15_1,
+                        $monto_15_2,
+                        $sumatoria_igv_18_1,
+                        $sumatoria_igv_18_2,
+                        $codigo_tributo_18_3,
+                        $nombre_tributo_18_4,
+                        $codigo_internacional_18_5,
+                        $importe_total_23,
+                        $codigo_leyenda_26_1,
+                        $descripcion_leyenda_26_2,
+                        $tipo_documento_25_1,
+                        $guia_remision_25,
+                        $version_ubl_37,
+                        $version_estructura_38,
+                        $tipo_moneda_24,
+                        $tasa_igv,
+                        $_POST["idarticulo"],
+                        $_POST["numero_orden_item_29"],
+                        $_POST["cantidad_item_12"],
+                        $_POST["codigo_precio_14_1"],
+                        $_POST["precio_unitario"],
+                        $_POST["igvBD"],
+                        $_POST["igvBD"],
+                        $_POST["afectacionigv"],
+                        $_POST["codigotributo"],
+                        '',
+                        '',
+                        $_POST["igvBD2"],
+                        $_POST["vvu"],
+                        $_POST["subtotalBD"],
+                        $_POST["codigo"],
+                        $_POST["unidad_medida"],
+                        $idserie,
+                        $SerieReal,
+                        $numero_boleta,
+                        $tipo_doc_ide,
+                        $rucCliente,
+                        html_entity_decode($RazonSocial, ENT_QUOTES | ENT_HTML401, 'UTF-8'),
+                        $hora,
+                        $_POST["sumadcto"],
+                        $vendedorsitio,
+                        $tcambio,
+                        $tdescuento,
+                        $domicilio_fiscal,
+                        $tipopago,
+                        $nroreferencia,
+                        $ipagado,
+                        $saldo,
+                        $descdet,
+                        $total_icbper,
+                        $tipoboleta,
+                        $_POST["cantidadreal"],
+                        $ccuotas,
+                        $fechavecredito,
+                        $montocuota,
+                        $tadc,
+                        $transferencia,
+                        $ncuotahiden,
+                        $montocuotacre,
+                        $fechapago,
+                        $fechavenc,
+                        $efectivo,
+                        $visa,
+                        $yape,
+                        $plin,
+                        $mastercard,
+                        $deposito
+                    );
                     if ($rspta) {
                         echo "Se guardó la boleta correctamente";
                     } else {
                         echo "Tienes que aperturar caja";
                     }
-
                 }
-
             }
             // Verificar si la boleta se guardó correctamente y hay una caja abierta
-                
+
 
         } // $######################## FIN DE IF SI ES MAYOR O MENOR A 700
         break;
@@ -334,7 +331,6 @@ switch ($_GET["op"]) {
 
         while ($reg = $rspta->fetch_object()) {
             echo '<option value=' . $reg->idpersona . '>' . $reg->nombre . '</option>';
-
         }
         break;
 
@@ -346,7 +342,6 @@ switch ($_GET["op"]) {
 
         while ($reg = $rspta->fetch_object()) {
             echo '<option value=' . $reg->idpersona . '>' . $reg->num_documento . '</option>';
-
         }
         break;
 
@@ -358,7 +353,6 @@ switch ($_GET["op"]) {
 
         while ($reg = $rspta->fetch_object()) {
             echo '<option value=' . $reg->idnumeracion . '>' . $reg->serie . '</option>';
-
         }
         break;
 
@@ -509,7 +503,6 @@ switch ($_GET["op"]) {
                 $url = '../reportes/exTicket.php?id=';
             } else {
                 $url = '../reportes/exBoleta.php?id=';
-
             }
 
             //==============Agregar====================================================
@@ -560,7 +553,7 @@ switch ($_GET["op"]) {
                 "0" =>
 
 
-                    '<div class="dropdown">
+                '<div class="dropdown">
                 <button  class="btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 :::
                 <span class="caret"></span></button>
@@ -639,7 +632,7 @@ switch ($_GET["op"]) {
                 //Opciones de envio
                 "9" =>
 
-                    '<div class="dropdown">
+                '<div class="dropdown">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 Opciones
                 <span class="caret"></span></button>
@@ -705,10 +698,10 @@ switch ($_GET["op"]) {
         );
         echo json_encode($results);
         break;
-    
-        //listarTodo
 
-        case 'listar':
+    //listarTodo
+
+    case 'listar':
         require_once "../modelos/Rutas.php";
         $numero = 'BKLKASD';
         $rutas = new Rutas();
@@ -743,7 +736,6 @@ switch ($_GET["op"]) {
                 $url = '../reportes/exTicket.php?id=';
             } else {
                 $url = '../reportes/exBoleta.php?id=';
-
             }
 
             //==============Agregar====================================================
@@ -794,7 +786,7 @@ switch ($_GET["op"]) {
                 "0" =>
 
 
-                    '<div class="dropdown">
+                '<div class="dropdown">
                 <button  class="btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 :::
                 <span class="caret"></span></button>
@@ -873,7 +865,7 @@ switch ($_GET["op"]) {
                 //Opciones de envio
                 "9" =>
 
-                    '<div class="dropdown">
+                '<div class="dropdown">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                 Opciones
                 <span class="caret"></span></button>
@@ -983,7 +975,6 @@ switch ($_GET["op"]) {
                 $url = '../reportes/exTicket.php?id=';
             } else {
                 $url = '../reportes/exBoleta.php?id=';
-
             }
 
             //==============Agregar====================================================
@@ -1032,7 +1023,7 @@ switch ($_GET["op"]) {
             $data[] = array(
                 "0" =>
 
-                    '
+                '
                  <input type="hidden" name="idoculto[]" id="idoculto[]" value="' . $reg->idboleta . '">
                  <input type="hidden" name="estadoocu[]" id="estadoocu[]" value="' . $reg->estado . '">
                  <div class="btn-group mb-1">
@@ -1048,9 +1039,7 @@ switch ($_GET["op"]) {
                         
                      </div>
                  </div>
-             </div>'
-
-                ,
+             </div>',
 
 
                 "1" => $reg->fecha,
@@ -1079,7 +1068,7 @@ switch ($_GET["op"]) {
                 //Opciones de envio
                 "9" =>
 
-                    '<div class="dropdown">
+                '<div class="dropdown">
                  <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      Opciones
                  </button>
@@ -1158,7 +1147,6 @@ switch ($_GET["op"]) {
                 $url = '../reportes/exTicket.php?id=';
             } else {
                 $url = '../reportes/exBoleta.php?id=';
-
             }
 
             //==============Agregar====================================================
@@ -1187,7 +1175,6 @@ switch ($_GET["op"]) {
                 $boleta->enviarxmlSUNAT($reg->idboleta, $_SESSION['idempresa']);
                 $st = "5";
                 $UpSt = $boleta->ActualizarEstado($reg->idboleta, $st);
-
             }
 
 
@@ -1202,7 +1189,6 @@ switch ($_GET["op"]) {
                 $stt = '';
                 $sunatFirma = 'class';
                 $sunatAceptado = 'class';
-
             } else if ($reg->estado == '4') {
                 $send = '';
                 $stt = '';
@@ -1238,7 +1224,7 @@ switch ($_GET["op"]) {
 
             $data[] = array(
                 "0" =>
-                    ' <div class="btn-group mb-1">
+                ' <div class="btn-group mb-1">
             <div class="dropdown">
                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
@@ -1281,7 +1267,7 @@ switch ($_GET["op"]) {
                                     : '<i class="fa fa-newspaper" style="font-size: 14px; color:#239B56;"> <span>' . $reg->DetalleSunat . '</span></i> ')))),
 
                 "9" =>
-                    '       
+                '       
             <a hidden onclick="enviarxmlSUNAT(' . $reg->idboleta . ')"  ' . $sunatAceptado . '="class_a_href" ><i class="fa fa-send"  style="color:red; font-size:18px;" data-toggle="tooltip" title="Enviar a SUNAT" ></i></a>
 
             <a style="cursor:pointer;" onclick="mostrarxml(' . $reg->idboleta . ')"><img src="../public/images/xml.png" width="28px" height="28px" title="Descargar XML"></a>
@@ -1290,9 +1276,9 @@ switch ($_GET["op"]) {
                 //Actualizado ===============================================
                 ,
                 "10" =>
-                    ' <a style="cursor:pointer;" onclick="mostrarrpta(' . $reg->idboleta . ')"><img src="../public/images/cdr.png" width="28px" height="28px" title="Descargar CDR"></a>',
+                ' <a style="cursor:pointer;" onclick="mostrarrpta(' . $reg->idboleta . ')"><img src="../public/images/cdr.png" width="28px" height="28px" title="Descargar CDR"></a>',
                 "11" =>
-                    ' <a style="cursor:pointer;" target="_blank" onclick="prea4completo2(' . $reg->idboleta . ')"><img src="../public/images/pdf.png" width="28px" height="28px" title="Descargar PDF"></a>'
+                ' <a style="cursor:pointer;" target="_blank" onclick="prea4completo2(' . $reg->idboleta . ')"><img src="../public/images/pdf.png" width="28px" height="28px" title="Descargar PDF"></a>'
             );
         }
         $results = array(
@@ -1310,9 +1296,9 @@ switch ($_GET["op"]) {
 
 
 
-       //Listar Todo Envio Automático
-       
-       case 'envioautomaticolistartodo':
+    //Listar Todo Envio Automático
+
+    case 'envioautomaticolistartodo':
         $idempresa = $_GET['idempresa'];
         require_once "../modelos/Rutas.php";
         $rutas = new Rutas();
@@ -1347,7 +1333,6 @@ switch ($_GET["op"]) {
                 $url = '../reportes/exTicket.php?id=';
             } else {
                 $url = '../reportes/exBoleta.php?id=';
-
             }
 
             //==============Agregar====================================================
@@ -1376,7 +1361,6 @@ switch ($_GET["op"]) {
                 $boleta->enviarxmlSUNAT($reg->idboleta, $_SESSION['idempresa']);
                 $st = "5";
                 $UpSt = $boleta->ActualizarEstado($reg->idboleta, $st);
-
             }
 
 
@@ -1391,7 +1375,6 @@ switch ($_GET["op"]) {
                 $stt = '';
                 $sunatFirma = 'class';
                 $sunatAceptado = 'class';
-
             } else if ($reg->estado == '4') {
                 $send = '';
                 $stt = '';
@@ -1427,7 +1410,7 @@ switch ($_GET["op"]) {
 
             $data[] = array(
                 "0" =>
-                    ' <div class="btn-group mb-1">
+                ' <div class="btn-group mb-1">
             <div class="dropdown">
                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
@@ -1469,7 +1452,7 @@ switch ($_GET["op"]) {
                                     : '<i class="fa fa-newspaper" style="font-size: 14px; color:#239B56;"> <span>' . $reg->DetalleSunat . '</span></i> ')))),
 
                 "9" =>
-                    '       
+                '       
             <a hidden onclick="enviarxmlSUNAT(' . $reg->idboleta . ')"  ' . $sunatAceptado . '="class_a_href" ><i class="fa fa-send"  style="color:red; font-size:18px;" data-toggle="tooltip" title="Enviar a SUNAT" ></i></a>
 
             <a style="cursor:pointer;" onclick="mostrarxml(' . $reg->idboleta . ')"><img src="../public/images/xml.png" width="28px" height="28px" title="Descargar XML"></a>
@@ -1478,9 +1461,9 @@ switch ($_GET["op"]) {
                 //Actualizado ===============================================
                 ,
                 "10" =>
-                    ' <a style="cursor:pointer;" onclick="mostrarrpta(' . $reg->idboleta . ')"><img src="../public/images/cdr.png" width="28px" height="28px" title="Descargar CDR"></a>',
+                ' <a style="cursor:pointer;" onclick="mostrarrpta(' . $reg->idboleta . ')"><img src="../public/images/cdr.png" width="28px" height="28px" title="Descargar CDR"></a>',
                 "11" =>
-                    ' <a style="cursor:pointer;" target="_blank" onclick="prea4completo2(' . $reg->idboleta . ')"><img src="../public/images/pdf.png" width="28px" height="28px" title="Descargar PDF"></a>'
+                ' <a style="cursor:pointer;" target="_blank" onclick="prea4completo2(' . $reg->idboleta . ')"><img src="../public/images/pdf.png" width="28px" height="28px" title="Descargar PDF"></a>'
             );
         }
         $results = array(
@@ -1531,7 +1514,8 @@ switch ($_GET["op"]) {
         $ano = $_GET['ano'];
         $mes = $_GET['mes'];
         //$idempresa=$_GET['idempresa'];
-        $idusuario = $_GET{'idusuario'};
+        $idusuario = $_GET{
+            'idusuario'};
 
         $rspta = $boleta->listarDR($ano, $mes, $_SESSION['idempresa'], $idusuario);
         //Vamos a declarar un array
@@ -1584,7 +1568,6 @@ switch ($_GET["op"]) {
 
         while ($reg = $rspta->fetch_object()) {
             echo '<option value=' . $reg->abre . '>' . $reg->nombreum . '</option>';
-
         }
         break;
 
@@ -1634,7 +1617,6 @@ switch ($_GET["op"]) {
                     "8" => $reg->idarticulo
                 );
             }
-
         } else {
 
             $rspta = $articulo->listarActivosVentaumcompra($_SESSION['idempresa'], $tipob, $almacen, $tipoprecio);
@@ -1657,8 +1639,6 @@ switch ($_GET["op"]) {
                     "8" => $reg->idarticulo
                 );
             }
-
-
         }
 
         $results = array(
@@ -1873,9 +1853,4 @@ switch ($_GET["op"]) {
         $rspta = $boleta->duplicar($idboleta);
         echo $rspta ? "Boleta ha sido duplicada" : "Boleta no se pudo duplicar";
         break;
-
-
 }
-
-
-?>
